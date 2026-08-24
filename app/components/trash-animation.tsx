@@ -30,7 +30,7 @@ export function TrashAnimation() {
     <MotionConfig transition={{ duration: 0.5, bounce: 0.2, type: "spring" }}>
       <div className="relative flex h-[500px] flex-col items-center justify-center">
         <ul className="grid grid-cols-2 gap-4">
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {!readyToRemove &&
               imagesToShow.map((image) => {
                 const isSelected = imagesToRemove.includes(image);
@@ -38,6 +38,11 @@ export function TrashAnimation() {
                 return (
                   <motion.li
                     key={image}
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: 1,
+                      transition: { duration: 0.3, delay: 0.5 },
+                    }}
                     exit={
                       !isSelected
                         ? {
@@ -177,25 +182,35 @@ export function TrashAnimation() {
             </motion.div>
           ) : null}
         </AnimatePresence>
-        {readyToRemove ? (
-          <div className="absolute bottom-10 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                if (readyToRemove) {
-                  setRemoved(true);
-                } else {
-                  setReadyToRemove(true);
-                }
-              }}
-              className="flex h-8 w-[200px] items-center justify-center gap-[15px] rounded-full bg-[#FF3F40] text-center text-[13px] font-semibold text-[#FFFFFF]"
-            >
-              Trash {imagesToRemove.length} Collectibles
-            </button>
-          </div>
-        ) : null}
         <AnimatePresence>
           {readyToRemove ? (
-            <div className="absolute top-1/2 z-10 h-[114px] w-24 -translate-y-1/2">
+            <motion.div
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute bottom-10 flex flex-col gap-2"
+            >
+              <button
+                onClick={() => {
+                  if (readyToRemove) {
+                    setRemoved(true);
+                  } else {
+                    setReadyToRemove(true);
+                  }
+                }}
+                className="flex h-8 w-[200px] items-center justify-center gap-[15px] rounded-full bg-[#FF3F40] text-center text-[13px] font-semibold text-[#FFFFFF]"
+              >
+                Trash {imagesToRemove.length} Collectibles
+              </button>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+        <AnimatePresence>
+          {readyToRemove ? (
+            <motion.div
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-1/2 z-10 h-[114px] w-24 -translate-y-1/2"
+            >
               <motion.div
                 initial={{ opacity: 0, filter: "blur(4px)", scale: 1.2 }}
                 animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
@@ -210,6 +225,7 @@ export function TrashAnimation() {
                   y: removed ? 110 : 73,
                   scale: removed ? 0.7 : 1,
                   filter: removed ? "blur(4px)" : "blur(0px)",
+                  opacity: removed ? 0 : 1,
                 }}
                 transition={
                   removed
@@ -246,7 +262,7 @@ export function TrashAnimation() {
               >
                 <TrashFront />
               </motion.div>
-            </div>
+            </motion.div>
           ) : null}
         </AnimatePresence>
       </div>
