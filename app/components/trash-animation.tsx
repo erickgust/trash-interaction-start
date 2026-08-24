@@ -206,8 +206,16 @@ export function TrashAnimation() {
               </motion.div>
 
               <motion.div
-                animate={{ y: 73 }}
-                transition={{ delay: 0.13 }}
+                animate={{
+                  y: removed ? 110 : 73,
+                  scale: removed ? 0.7 : 1,
+                  filter: removed ? "blur(4px)" : "blur(0px)",
+                }}
+                transition={
+                  removed
+                    ? { duration: 0.3, type: "spring", bounce: 0 }
+                    : { delay: 0.13 }
+                }
                 className="absolute top-[-60px] flex w-full flex-col-reverse items-center"
               >
                 {imagesToRemove.map((image, index) => (
