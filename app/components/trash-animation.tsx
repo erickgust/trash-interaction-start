@@ -49,7 +49,11 @@ export function TrashAnimation() {
                     }
                     className="relative flex h-[100px] w-[100px]"
                   >
-                    <div
+                    <motion.div
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0 },
+                      }}
                       className={clsx(
                         "pointer-events-none absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full border border-white/60",
                       )}
@@ -73,7 +77,7 @@ export function TrashAnimation() {
                           </svg>
                         </div>
                       ) : null}
-                    </div>
+                    </motion.div>
                     <button
                       aria-label="Remove book"
                       onClick={() => {
